@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CDLibrary.Entities"
+             xmlns:vm="clr-namespace:CDLibrary.ViewModels"
+             x:Class="CDLibrary.Pages.Index"
+             x:DataType="vm:TrackIndexViewModel">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Padding="10" ColumnDefinitions=".90*, .10*" ColumnSpacing="15">
+            <Frame Padding="0" Margin="5, 5" CornerRadius="0" BackgroundColor="LightGray">
+                <Grid ColumnDefinitions=".9*, .1*">
+                    <Entry Text="{Binding Query}" Grid.Column="0" Placeholder="Search Music" TextColor="Black" PlaceholderColor="Gray"/>
+                    <Image Source="cd.png" Grid.Column="1"/>
+                </Grid>
+            </Frame>
+            <Grid Grid.Column="1" RowSpacing="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="15"/>
+                </Grid.RowDefinitions>
+                <ImageButton Source="cd.png" Grid.Row="0" BackgroundColor="Gray" Padding="5" Clicked="ImageButton_Clicked"/>
+                <Label Text="New" Grid.Row="1" HorizontalOptions="Center"/>
+            </Grid>
+
+        </Grid>
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Tracks}" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:Track">
+                    <Frame Padding="5" BackgroundColor="{Binding CdColour}">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding Id}}"/>
+                        </Frame.GestureRecognizers>
+                        <Grid Margin="5" HeightRequest="50" ColumnSpacing="15"  ColumnDefinitions=".15*, .15*, .7*" RowDefinitions=".5*, .5*">
+                            <Grid RowDefinitions="*" ColumnDefinitions="*" Grid.RowSpan="2">
+                                <Frame Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <Label Text="{Binding Index}" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                </Frame>
+                            </Grid>
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="15">
+                                <Label Text="{Binding Title}" FontSize="18"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="2" HorizontalOptions="End">
+                                <Label Text="{Binding CdName}" FontSize="18"/>
+                                <Label Text="{Binding CdIndex}" FontSize="18"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Label Text="{Binding Note1}"/>
+                                <Label Text="{Binding Note2}"/>
+                                <Label Text="{Binding Note3}"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>

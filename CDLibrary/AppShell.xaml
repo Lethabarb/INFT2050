@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CDLibrary.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CDLibrary"
+    Shell.FlyoutBehavior="Disabled"
+    xmlns:views ="clr-namespace:CDLibrary.Pages"
+    Shell.NavBarIsVisible="False"
+    Title="CDLibrary">
+
+    <TabBar x:Name="Bar">
+        <ShellContent Title="Music"
+                     x:Name="MusicTab"
+                     Icon="cd.png"
+                     ContentTemplate="{x:DataTemplate views:Index}"/>
+        <ShellContent Title="Track"
+                      x:Name="TrackTab"
+                      Icon="cd.png"
+                      IsVisible="False"
+                      ContentTemplate="{x:DataTemplate views:EditTrack}"/>
+        <ShellContent Title="BPM"
+                     x:Name="BpmTab"
+                     Icon="metronome.png"
+                     ContentTemplate="{DataTemplate views:BpmCalculator}" />
+    </TabBar>
+
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />-->
+
+</Shell>

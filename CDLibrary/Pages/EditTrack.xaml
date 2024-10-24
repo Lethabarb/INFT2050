@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CDLibrary.Pages.EditTrack"
+             xmlns:viewmodel="clr-namespace:CDLibrary.ViewModels"
+             xmlns:model="clr-namespace:CDLibrary.Models"
+             x:DataType="viewmodel:TrackEditViewModel"
+             Title="EditTrack">
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Track Name"/>
+            <Editor Placeholder="NAME" x:Name="TitleEditor" Text="{Binding Title}"/>
+            <Label Text="CD"/>
+            <Picker x:Name="CdPicker"
+                ItemsSource="{Binding CdNames}"
+                SelectedItem="{Binding PickerCd}"
+                SelectedIndex="{Binding SelectedCdIndex}"
+                SelectedIndexChanged="CdPicker_SelectedIndexChanged"
+        Title="Select CD">
+            </Picker>
+            <Frame x:Name="NewCdFrame" IsVisible="False">
+                <VerticalStackLayout>
+                    <Label Text="New CD name"/>
+                    <Editor Text="{Binding EditorCd}"/>
+                    <Label Text="New CD Index"/>
+                    <Editor Keyboard="Numeric" Text="{Binding NewCdIndex}"/>
+                    <Label Text="Colour"/>
+                    <CollectionView
+                SelectionMode="Single"
+                SelectedItem="{Binding NewCdColor}"
+             x:Name="ColorPicker">
+                        <CollectionView.ItemsSource>
+                            <x:Array Type="{x:Type model:Colour}">
+                                <model:Colour Name="Blue" Value="#3495eb"></model:Colour>
+                                <model:Colour Name="Red" Value="#f25738"></model:Colour>
+                                <model:Colour Name="Pink" Value="#ffc4c4"></model:Colour>
+                                <model:Colour Name="Light Blue" Value="#ccfff7"></model:Colour>
+                                <model:Colour Name="Light Green" Value="#ccffdd"></model:Colour>
+                                <model:Colour Name="Purple" Value="#f5ccff"></model:Colour>
+                            </x:Array>
+                        </CollectionView.ItemsSource>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Colour">
+                                <Grid ColumnDefinitions=".5*, .5*">
+                                    <Frame HorizontalOptions="Fill" Padding="5">
+                                        <Grid ColumnDefinitions=".3*, .7*" ColumnSpacing="20">
+                                            <Frame BackgroundColor="{Binding Value}" Grid.Column="0">
+                                            </Frame>
+                                            <Label Text="{Binding Name}" Grid.Column="1"/>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+            </Frame>
+            <Label Text="Index"/>
+            <Editor Keyboard="Numeric" x:Name="IndexEditor" Text="{Binding Index}" Placeholder="3"/>
+            <Label Text="Dance"/>
+            <Editor Text="{Binding Note1}" Placeholder="Jive"/>
+            <Label Text="Style"/>
+            <Editor Text="{Binding Note2}" Placeholder="Latin"/>
+            <Label Text="Bpm"/>
+            <Editor Text="{Binding Note3}" Placeholder="40Bpm"/>
+
+            <Frame BorderColor="Transparent" CornerRadius="0" Padding="0" Margin="0,20">
+                <Grid ColumnDefinitions=".5*, .5*" ColumnSpacing="150">
+                    <Button Text="Save" Grid.Column="0" Clicked="SaveTrack"/>
+                    <Button Text="Delete" Grid.Column="1" Clicked="DeleteTrack"/>
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

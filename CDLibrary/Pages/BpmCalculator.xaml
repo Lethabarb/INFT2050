@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CDLibrary.Pages.BpmCalculator"
+             xmlns:vm="clr-namespace:CDLibrary.ViewModels"
+             x:DataType="vm:BpmViewModel"
+             Title="BpmCalculator">
+    <VerticalStackLayout>
+        <Frame 
+            WidthRequest="200"
+            HeightRequest="200"
+            CornerRadius="100"
+            >
+            <Entry Keyboard="Numeric" Text="{Binding Bpm}" IsEnabled="{Binding Editable}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="50"/>
+        </Frame>
+        <Label Text="Bars per min"/>
+        <Switch IsToggled="{Binding Bars}" IsEnabled="{Binding Editable}"/>
+        <Picker SelectedItem="{Binding BarSelection}" IsEnabled="{Binding Editable}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:Int32}">
+                    <x:Int32>4</x:Int32>
+                    <x:Int32>3</x:Int32>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <ImageButton Source="{Binding ButtonIcon}"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     BackgroundColor="{Binding ButtonColour}"
+                     BorderColor="Black"
+                     BorderWidth="1"
+                     HeightRequest="75"
+                     WidthRequest="75"
+                     CornerRadius="50"
+                     Padding="10"
+                     Margin="20"
+                     Clicked="ImageButton_Clicked"
+                     />
+    </VerticalStackLayout>
+</ContentPage>
