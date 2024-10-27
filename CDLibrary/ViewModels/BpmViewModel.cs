@@ -17,10 +17,27 @@ namespace CDLibrary.ViewModels
         {
             get
             {
-                return "microphone.png";
+                return MicActive ? "pause.png" : "play.png";
             }
         }
-        public bool Bars { get; set; }
+        public string CounterText
+        {
+            get
+            {
+                return Bars ? "Bars per Min" : "Beats per Min";
+            }
+        }
+        private bool bars = false;
+        public bool Bars { get
+            {
+                return bars;
+            }
+            set
+            {
+                bars = value;
+                OnPropertyChanged(nameof(CounterText));
+            }
+        }
         public int BarSelection { get; set; }
 
         public int Bpm { get; set; } = 28;
@@ -57,6 +74,7 @@ namespace CDLibrary.ViewModels
             {
 
             });
+            BarSelection = 3;
         }
         public async void MicActivation()
         {
@@ -118,7 +136,8 @@ namespace CDLibrary.ViewModels
         {
             var stream = await FileSystem.OpenAppPackageFileAsync("tick.wav");
             var tick2 = audioManager.CreatePlayer(stream);
-            int FrequencyMs = 1000 / (Bpm * 60) - 20;
+            double Frequency = 1000.00 / ((double)Bpm / 60.00);
+            int FrequencyMs = (int)Frequency - 20;
             while (MicActive)
             {
                 tick2.Play();

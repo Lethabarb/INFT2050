@@ -6,23 +6,45 @@
              x:DataType="vm:BpmViewModel"
              Title="BpmCalculator">
     <VerticalStackLayout>
-        <Frame 
+        <Frame
+            Margin="15"
             WidthRequest="200"
             HeightRequest="200"
             CornerRadius="100"
             >
-            <Entry Keyboard="Numeric" Text="{Binding Bpm}" IsEnabled="{Binding Editable}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="50"/>
+            <Frame
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                BorderColor="White">
+                <Entry Keyboard="Numeric" Text="{Binding Bpm}" IsEnabled="{Binding Editable}" FontSize="50"/>
+            </Frame>
         </Frame>
-        <Label Text="Bars per min"/>
-        <Switch IsToggled="{Binding Bars}" IsEnabled="{Binding Editable}"/>
-        <Picker SelectedItem="{Binding BarSelection}" IsEnabled="{Binding Editable}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:Int32}">
-                    <x:Int32>4</x:Int32>
-                    <x:Int32>3</x:Int32>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
+        <Label
+            HorizontalOptions="Center"
+            FontSize="26"
+            Margin="0, 0, 0, 30" Text="{Binding CounterText}"
+            ></Label>
+        <Grid ColumnDefinitions=".35*,.65*">
+            <Frame BorderColor="White">
+                <VerticalStackLayout>
+                    <Label Text="Bars per min"/>
+                    <Switch IsToggled="{Binding Bars}" IsEnabled="{Binding Editable}" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+            <Frame Grid.Column="2" BorderColor="white">
+                <VerticalStackLayout>
+                    <Label Text="Beats per Bar" />
+                    <Picker SelectedItem="{Binding BarSelection}" IsEnabled="{Binding Editable}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:Int32}">
+                                <x:Int32>4</x:Int32>
+                                <x:Int32>3</x:Int32>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>                
+            </Frame>
+        </Grid>
         <ImageButton Source="{Binding ButtonIcon}"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
@@ -32,7 +54,7 @@
                      HeightRequest="75"
                      WidthRequest="75"
                      CornerRadius="50"
-                     Padding="10"
+                     Padding="20"
                      Margin="20"
                      Clicked="ImageButton_Clicked"
                      />

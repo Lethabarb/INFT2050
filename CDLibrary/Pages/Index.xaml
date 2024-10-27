@@ -14,7 +14,7 @@
             <Frame Padding="0" Margin="5, 5" CornerRadius="0" BackgroundColor="LightGray">
                 <Grid ColumnDefinitions=".9*, .1*">
                     <Entry Text="{Binding Query}" Grid.Column="0" Placeholder="Search Music" TextColor="Black" PlaceholderColor="Gray"/>
-                    <Image Source="cd.png" Grid.Column="1"/>
+                    <Image Source="search.png" Grid.Column="1"/>
                 </Grid>
             </Frame>
             <Grid Grid.Column="1" RowSpacing="2">
@@ -22,19 +22,21 @@
                     <RowDefinition/>
                     <RowDefinition Height="15"/>
                 </Grid.RowDefinitions>
-                <ImageButton Source="cd.png" Grid.Row="0" BackgroundColor="Gray" Padding="5" Clicked="ImageButton_Clicked"/>
+                <ImageButton Source="add.png" Grid.Row="0" BackgroundColor="#FFFFFF" BorderColor="Gray" BorderWidth="1" Padding="5" Clicked="ImageButton_Clicked"/>
                 <Label Text="New" Grid.Row="1" HorizontalOptions="Center"/>
             </Grid>
 
         </Grid>
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Tracks}" >
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Tracks}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:Track">
-                    <Frame Padding="5" BackgroundColor="{Binding CdColour}">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding Id}}"/>
-                        </Frame.GestureRecognizers>
-                        <Grid Margin="5" HeightRequest="50" ColumnSpacing="15"  ColumnDefinitions=".15*, .15*, .7*" RowDefinitions=".5*, .5*">
+                    <VerticalStackLayout HeightRequest="67">
+
+                        <Grid Padding="10, 10" HeightRequest="65"  VerticalOptions="Fill" ColumnSpacing="15"  ColumnDefinitions=".15*, .15*, .7*" RowDefinitions=".5*, .5*"
+                          BackgroundColor="{Binding CdColour}">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding Id}"/>
+                            </Grid.GestureRecognizers>
                             <Grid RowDefinitions="*" ColumnDefinitions="*" Grid.RowSpan="2">
                                 <Frame Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                     <Label Text="{Binding Index}" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -53,7 +55,11 @@
                                 <Label Text="{Binding Note3}"/>
                             </HorizontalStackLayout>
                         </Grid>
-                    </Frame>
+                        <BoxView   
+                      Color="LightGray"  
+                      HeightRequest="2"  
+                         />
+                    </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

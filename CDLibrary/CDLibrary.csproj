@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\add.png" />
+	  <None Remove="Resources\Images\pause.png" />
+	  <None Remove="Resources\Images\play.png" />
+	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Raw\tick.mp3" />
 	  <None Remove="Resources\Raw\tick.wav" />
 	  <None Remove="Resources\Raw\tickStart.mp3" />

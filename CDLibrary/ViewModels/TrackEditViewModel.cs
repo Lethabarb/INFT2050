@@ -15,6 +15,7 @@ namespace CDLibrary.ViewModels
         public string EditorCd { get; set; }
         public string NewCdIndex { get; set; }
         public Colour NewCdColor { get; set; }
+        public bool NewCd { get; set; }
         public int SelectedCdIndex { get; set; }
         public int TrackId { get; set; }
         public string Title { get; set; }
@@ -28,6 +29,7 @@ namespace CDLibrary.ViewModels
         {
             CdNames = App.Cds.GetAllNames("new CD");
             TrackId = -1;
+            NewCd = true;
             PickerCd = CdNames.First();
             SelectedCdIndex = CdNames.IndexOf(PickerCd);
         }
@@ -39,14 +41,17 @@ namespace CDLibrary.ViewModels
             Note2 = track.Note2;
             Note3 = track.Note3;
             Title = track.Title;
+            Index = track.Index.ToString();
             if (track.CD != null)
             {
                 PickerCd = track.CD.Name;
                 SelectedCdIndex = CdNames.IndexOf(PickerCd);
+                NewCd = false;
             } else
             {
                 PickerCd = "New CD";
                 SelectedCdIndex = CdNames.Count;
+                NewCd = true;
             }
         }
         public bool Valid()

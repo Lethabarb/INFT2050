@@ -80,7 +80,35 @@ public partial class EditTrack : ContentPage
     }
     private void DeleteTrack(object sender, EventArgs e)
     {
-        //App.Tracks.DeleteItem(_viewModel.Track);
+        if (!_viewModel.Valid())
+        {
+            Navigation.PopAsync();
+            return;
+        }
+        CD cd;
+        try
+        {
+            cd = App.Cds.GetBy(cd => cd.Name == _viewModel.PickerCd).First();
+        } catch (Exception ex)
+        {
+            Navigation.PopAsync();
+            return;
+        }
+        Track t = new Track()
+        {
+            Id = _viewModel.TrackId,
+            Title = _viewModel.Title,
+            CD = cd,
+            CdId = cd.Id,
+            Note1 = _viewModel.Note1,
+            Note2 = _viewModel.Note2,
+            Note3 = _viewModel.Note3,
+            Index = int.Parse(_viewModel.Index)
+        };
+        if (t.Id != -1)
+        {
+            App.Tracks.DeleteItem(t);
+        }
         Navigation.PopAsync();
     }
 

@@ -19,7 +19,7 @@
                 SelectedIndexChanged="CdPicker_SelectedIndexChanged"
         Title="Select CD">
             </Picker>
-            <Frame x:Name="NewCdFrame" IsVisible="False">
+            <Frame x:Name="NewCdFrame" IsVisible="{Binding NewCd}">
                 <VerticalStackLayout>
                     <Label Text="New CD name"/>
                     <Editor Text="{Binding EditorCd}"/>
