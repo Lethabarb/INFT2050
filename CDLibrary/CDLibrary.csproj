@@ -58,7 +58,9 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Raw\tick.mp3" />
+	  <None Remove="Resources\Raw\tick.wav" />
 	  <None Remove="Resources\Raw\tickStart.mp3" />
+	  <None Remove="Resources\Raw\tickstart.wav" />
 	</ItemGroup>
 
 	<ItemGroup>

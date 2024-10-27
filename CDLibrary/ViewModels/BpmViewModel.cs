@@ -1,12 +1,5 @@
-﻿using Android.Media;
-using Plugin.Maui.Audio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Plugin.Maui.Audio;
 using System.Windows.Input;
-using Microsoft.Maui.Storage;
 
 namespace CDLibrary.ViewModels
 {
@@ -29,7 +22,8 @@ namespace CDLibrary.ViewModels
         }
         public bool Bars { get; set; }
         public int BarSelection { get; set; }
-        public int Bpm { get; set; }
+
+        public int Bpm { get; set; } = 28;
         public bool Editable
         {
             get
@@ -41,19 +35,21 @@ namespace CDLibrary.ViewModels
         private Task tickAction;
         public ICommand OnBarChange { get; set; }
 
-        public int FrequencyMs { get
-            {
-                //1000 / (60 * 3 / 60)
-                if (Bars)
-                {
-                    return 1000 / (Bpm * BarSelection / 60);
-                }
-                else
-                {
-                    return 1000 / (Bpm / 60);
-                }
-            }
-        }
+        //public int FrequencyMs
+        //{
+        //    get
+        //    {
+        //        //1000 / (60 * 3 / 60)
+        //        if (Bars)
+        //        {
+        //            return 1000 / (Bpm * BarSelection / 60);
+        //        }
+        //        else
+        //        {
+        //            return 1000 / (Bpm / 60);
+        //        }
+        //    }
+        //}
         public BpmViewModel(IAudioManager audioManager)
         {
             this.audioManager = audioManager;
@@ -62,68 +58,74 @@ namespace CDLibrary.ViewModels
 
             });
         }
-        public void MicActivation()
+        public async void MicActivation()
         {
             MicActive = !MicActive;
             OnPropertyChanged(nameof(ButtonColour));
             OnPropertyChanged(nameof(ButtonIcon));
             OnPropertyChanged(nameof(Editable));
-            if (MicActive)
+            if (Bars)
             {
-                Task.Run(() => {
-                    Play();
-                });
+                Task.Run(barTicks);
+            } else
+            {
+                Task.Run(Ticks);
             }
         }
-        public async Task Play()
+        //public async Task Play()
+        //{
+        //var tick2 = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("tick.mp3"));
+        //int c = 0;
+        //while (MicActive)
+        //{
+        //    tickAction.Start();
+        //    if (Bars)
+        //    {
+        //        if (c == 0) tick1.Play();
+        //        else tick2.Play();
+        //        c++;
+        //        if (c == BarSelection) c = 0;
+        //    }
+        //    else
+        //    {
+        //        tick2.Play();
+        //    }
+        //    await Task.Delay(FrequencyMs);
+        //    }
+        //}
+        public async Task barTicks()
         {
-            var tick1 = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("tickstart.mp3"));
-            var tick2 = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("tick.mp3"));
-            int c = 0;
+            var stream = await FileSystem.OpenAppPackageFileAsync("tick.wav");
+            var stream2 = await FileSystem.OpenAppPackageFileAsync("tickstart.wav");
+            var tick1 = audioManager.CreatePlayer(stream);
+            var tick2 = audioManager.CreatePlayer(stream2);
+            double Frequency = 1000.00 / ((double) Bpm / 60.00)/ (double)BarSelection;
+            int FrequencyMs = (int)Frequency - 20;
             while (MicActive)
             {
-                tickAction.Start();
-                if (Bars)
+                tick2.Play();
+                await Task.Delay(FrequencyMs);
+                for (int i = 0; i < BarSelection - 1; i++)
                 {
-                    if (c == 0) tick1.Play();
-                    else tick2.Play();
-                    c++;
-                    if (c == BarSelection) c = 0;
+                    tick1.Play();
+                    await Task.Delay(FrequencyMs);
                 }
-                else
-                {
-                    tick2.Play();
-                }
+            }
+            tick1.Dispose();
+            tick2.Dispose();
+        }
+        public async Task Ticks()
+        {
+            var stream = await FileSystem.OpenAppPackageFileAsync("tick.wav");
+            var tick2 = audioManager.CreatePlayer(stream);
+            int FrequencyMs = 1000 / (Bpm * 60) - 20;
+            while (MicActive)
+            {
+                tick2.Play();
                 await Task.Delay(FrequencyMs);
             }
+            tick2.Dispose();
         }
-        //public Task barTicks()
-        //{
-        //    return Task.Run(() =>
-        //    {
-        //        while (MicActive)
-        //        {
-        //            tick1.Play();
-        //            Task.Delay(FrequencyMs);
-        //            for (int i = 0; i < BarSelection - 1; i++)
-        //            {
-        //                tick2.Play();
-        //                Task.Delay(FrequencyMs);
-        //            }
-        //        }
-        //    });
-        //}
-        //public Task Ticks()
-        //{
-        //    return Task.Run(() =>
-        //    {
-        //        while (MicActive)
-        //        {
-        //            tick2.Play();
-        //            Task.Delay(FrequencyMs);
-        //        }
-        //    });
-        //}
 
     }
 }
